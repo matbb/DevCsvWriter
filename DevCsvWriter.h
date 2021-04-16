@@ -30,7 +30,10 @@ public:
         f_out.open(fname.c_str(), std::ios_base::binary);
         if (settings.fmt_is_scientific) f << std::scientific;
     }
-    ~DevCsvWriter() { f.flush(); }
+    ~DevCsvWriter() {
+        if (i_line == 1) AddHeaderAndFirstRow();
+        Flush();
+    }
 
     bool IsOpen() const { return f_out.is_open(); }
     void Flush() { f.flush(); }
